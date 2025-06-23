@@ -24,6 +24,7 @@ import {
 export function NavFavorites({
   favorites,
   onDelete,
+  onSelect
 }: {
   favorites: {
     name: string
@@ -31,6 +32,7 @@ export function NavFavorites({
     emoji: string
   }[]
   onDelete: (name: string) => void
+  onSelect: (chatId: string) => void
 }) {
   const { isMobile } = useSidebar()
 
@@ -41,7 +43,12 @@ export function NavFavorites({
         {favorites.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url} title={item.name}>
+              <a href={item.url} title={item.name} 
+              onClick={(e) => {
+                e.preventDefault()
+                const chatId = item.url.split("/").pop()
+                if (chatId) onSelect(chatId)
+              }}>
                 <span>{item.emoji}</span>
                 <span>{item.name}</span>
               </a>

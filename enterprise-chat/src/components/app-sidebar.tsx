@@ -24,6 +24,10 @@ import { fetchAuthSession } from "aws-amplify/auth"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
 import { listChatSessions } from "@/graphql/queries"
+import { deleteChatSession } from "@/graphql/mutations"
+import { chatMessagesByChatSessionIDAndCreatedAt } from "@/graphql/queries";
+import { ModelSortDirection } from "@/API"
+
 
 Amplify.configure(awsconfig)
 type Chat = {
@@ -57,6 +61,54 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     fetchSessions()
   }, [pathname]) 
+
+  const handleSelectChat = async (chatId: string) => {
+    try {
+      const res = await client.graphql({
+        query: chatMessagesByChatSessionIDAndCreatedAt,
+        variables: {
+          chatSessionID: chatId,
+          sortDirection: ModelSortDirection.ASC
+        }
+      });
+
+      const messages = res.data.chatMessagesByChatSessionIDAndCreatedAt.items;
+      console.log("Fetched messages:", messages);
+  
+      router.push(`/chat/${chatId}`);
+      } catch (err) {
+        toast.error("Failed to load messages");
+      }
+  } 
+
+  const handleDeleteChat = async (name: string) => {
+    try {
+      const chatToDelete = favorites.find(chat => chat.name === name);
+      if (!chatToDelete) return;
+
+      const id = chatToDelete.url.split("/").pop(); // Extract ID from URL
+
+      if (!id) {
+            toast.error("Invalid chat ID");
+            return;
+          }
+
+      await client.graphql({
+    
+        query: deleteChatSession,
+        variables: {
+          input: { id }
+        }
+      });
+
+      setFavorites(prev => prev.filter(chat => chat.name !== name));
+      toast.success("Chat deleted successfully");
+    } catch (error: any) {
+      console.error("Delete error:", error);
+      toast.error("Failed to delete chat");
+    }
+  };
+
 
   const handleNewChat = async () => {
     try {
@@ -97,11 +149,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   
   }
 
-
-  const handleDeleteChat = (name: string) => {
-    setFavorites(prev => prev.filter(chat => chat.name !== name))
-  }
-
   const data = {
   navMain: [
     {
@@ -119,7 +166,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavFavorites favorites={favorites} onDelete={handleDeleteChat} />
+        <NavFavorites favorites={favorites} onDelete={handleDeleteChat} onSelect={handleSelectChat}/>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

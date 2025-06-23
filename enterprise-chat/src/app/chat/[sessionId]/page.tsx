@@ -36,6 +36,7 @@ export default function Page() {
     const lastMessage = messages.at(-1)
     const isEmpty = messages.length === 0
     const isTyping = lastMessage?.role === "user"
+    
     return (
     <SidebarProvider>
       <AppSidebar />

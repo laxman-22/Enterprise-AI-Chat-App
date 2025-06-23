@@ -71,27 +71,6 @@ export default function Page() {
               />
             ) : null}
       
-            {!isEmpty ? (
-              <ChatMessages messages={messages}>
-                <MessageList messages={messages} isTyping={isTyping} />
-              </ChatMessages>
-            ) : null}
-      
-            <ChatForm
-              className="mt-auto"
-              isPending={isLoading || isTyping}
-              handleSubmit={handleSubmit}
-            >
-              {({ files, setFiles }) => (
-                <MessageInput
-                  value={input}
-                  onChange={handleInputChange}
-                  disabled={true}
-                  stop={stop}
-                  isGenerating={isLoading}
-                />
-              )}
-            </ChatForm>
           </ChatContainer>
         </div>
         </div>
