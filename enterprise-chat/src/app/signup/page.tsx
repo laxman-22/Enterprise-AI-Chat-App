@@ -19,17 +19,12 @@ export default function SignUp() {
         password: password
       })
       await signIn({ username: email, password })
-      useEffect(() => {
-        toast("Signed Up Successfully!")
-      })
-      
+      toast("Signed Up Successfully!")
       await signIn({
         username: email, password
       })
       router.push("/chat")
-      useEffect(() => {
-        toast("Signed In Successfully!")
-      })
+      toast("Signed In Successfully!")
 
     } catch (error: any) {
       console.error("Signup error:", error.message);

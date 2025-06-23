@@ -1,7 +1,7 @@
 'use client'
 import { LoginForm } from "@/components/login-form"
 import { useRouter } from 'next/navigation';
-import { signIn } from "aws-amplify/auth"
+import { signIn, fetchAuthSession } from "aws-amplify/auth"
 import { toast } from "sonner"
 import { Amplify } from 'aws-amplify'
 import awsconfig from '@/aws-exports'
@@ -18,6 +18,7 @@ export default function Login() {
                 username: email, 
                 password: password
             })
+            const session = await fetchAuthSession()
             toast("Logged In Successfully!")
             router.push("/chat")
         } catch(error: any) {

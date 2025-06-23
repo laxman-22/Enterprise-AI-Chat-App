@@ -18,8 +18,10 @@ import { ChatContainer, ChatForm, ChatMessages } from "@/components/ui/chat"
 import { MessageInput } from "@/components/ui/message-input"
 import { MessageList } from "@/components/ui/message-list"
 import { PromptSuggestions } from "@/components/ui/prompt-suggestions"
+import { useParams } from "next/navigation"
 
 export default function Page() {
+  const { sessionId } = useParams()
   const {
       messages,
       input,
@@ -49,7 +51,7 @@ export default function Page() {
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbPage className="line-clamp-1">
-                    Chat
+                    Chat Session: {sessionId}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -65,7 +67,7 @@ export default function Page() {
             <ChatContainer>
               {isEmpty ? (
               <PromptSuggestions
-                label="How can I help you?"
+                label="Click New Chat to begin"
                 append={append}
                 suggestions={["What is the capital of France?", "Tell me a joke"]}
               />
@@ -87,6 +89,7 @@ export default function Page() {
                   value={input}
                   onChange={handleInputChange}
                   stop={stop}
+                  disabled={true}
                   isGenerating={isLoading}
                 />
               )}
