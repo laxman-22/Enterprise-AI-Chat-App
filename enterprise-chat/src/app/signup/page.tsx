@@ -2,10 +2,10 @@
 import { SignUpForm } from "@/components/signup-form"
 import { useRouter } from "next/navigation";
 import { signUp, signIn } from "aws-amplify/auth"
-import { PassThrough } from "stream";
 import { Amplify } from 'aws-amplify'
 import awsconfig from '@/aws-exports'
 import { toast } from "sonner"
+import { useEffect } from "react";
 
 Amplify.configure(awsconfig)
 
@@ -13,20 +13,23 @@ export default function SignUp() {
   const router = useRouter()
 
   async function signup({ email, password }: { email: string; password: string }) {
-    console.log("signing tf in")
     try {
       await signUp({
         username: email,
         password: password
       })
       await signIn({ username: email, password })
-      toast("Signed Up Successfully!")
+      useEffect(() => {
+        toast("Signed Up Successfully!")
+      })
       
       await signIn({
         username: email, password
       })
       router.push("/chat")
-      toast("Logged In")
+      useEffect(() => {
+        toast("Signed In Successfully!")
+      })
 
     } catch (error: any) {
       console.error("Signup error:", error.message);

@@ -1,16 +1,28 @@
 'use client'
 import { LoginForm } from "@/components/login-form"
 import { useRouter } from 'next/navigation';
+import { signIn } from "aws-amplify/auth"
+import { toast } from "sonner"
+import { Amplify } from 'aws-amplify'
+import awsconfig from '@/aws-exports'
 
+Amplify.configure(awsconfig)
 
 
 export default function Login() {
     const router = useRouter()
-    function login() {
-
-        console.log("locked tf in")
-
-        router.push('/chat')
+    async function login({ email, password }: { email: string; password: string }) {
+        try {
+            console.log(email, password)
+            await signIn({
+                username: email, 
+                password: password
+            })
+            toast("Logged In Successfully!")
+            router.push("/chat")
+        } catch(error: any) {
+            toast(error.message)
+        }
     }
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">

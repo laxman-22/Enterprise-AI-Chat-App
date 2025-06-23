@@ -22,6 +22,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import {useRouter} from "next/navigation"
+import { signOut } from "aws-amplify/auth"
+import { toast } from "sonner"
 
 const data = [
   [
@@ -40,10 +42,15 @@ export function NavActions() {
     setIsOpen(true)
   }, [])
 
-  function logout() {
-    console.log("locked tf out")
-
-    router.push('/login')
+  async function logout() {
+    try {
+      await signOut()
+      toast('Logged Out Successfully!')
+      router.push('/login')
+    } catch(error: any) {
+      toast(error.message)
+    }
+    
   }
 
   return (

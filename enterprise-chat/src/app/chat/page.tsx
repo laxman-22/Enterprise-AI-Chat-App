@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import {ArrowUp} from "lucide-react"
 
 export default function Page() {
+  
   return (
     <SidebarProvider>
       <AppSidebar />
