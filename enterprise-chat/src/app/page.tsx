@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCurrentUser } from 'aws-amplify/auth';
@@ -7,7 +6,6 @@ import { toast } from 'sonner'
 import { Amplify } from 'aws-amplify'
 import awsconfig from '@/amplifyconfig'
 
-export const dynamic = 'force-dynamic'
 Amplify.configure(awsconfig)
 
 export default function Home() {

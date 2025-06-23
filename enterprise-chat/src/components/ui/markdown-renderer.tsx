@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm"
 
 import { cn } from "@/lib/utils"
 import { CopyButton } from "@/components/ui/copy-button"
+import type { JSX } from "react";
 
 interface MarkdownRendererProps {
   children: string
@@ -184,12 +185,14 @@ const COMPONENTS = {
   hr: withClass("hr", "border-foreground/20"),
 }
 
+
 function withClass(Tag: keyof JSX.IntrinsicElements, classes: string) {
-  const Component = ({ node, ...props }: any) => (
-    <Tag className={classes} {...props} />
-  )
-  Component.displayName = Tag
-  return Component
+  const Component = ({ node, ...props }: any) => (
+    <Tag className={classes} {...props} />
+  );
+  Component.displayName = String(Tag);
+  return Component;
 }
+
 
 export default MarkdownRenderer
