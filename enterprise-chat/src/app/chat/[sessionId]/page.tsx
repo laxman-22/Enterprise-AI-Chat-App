@@ -67,7 +67,7 @@ export default function Page() {
             <ChatContainer>
               {isEmpty ? (
               <PromptSuggestions
-                label="Click New Chat to begin"
+                label="How can I help you?"
                 append={append}
                 suggestions={["What is the capital of France?", "Tell me a joke"]}
               />
@@ -89,7 +89,7 @@ export default function Page() {
                   value={input}
                   onChange={handleInputChange}
                   stop={stop}
-                  disabled={true}
+                  disabled={false}
                   isGenerating={isLoading}
                 />
               )}

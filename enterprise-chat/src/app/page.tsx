@@ -2,34 +2,45 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getCurrentUser } from 'aws-amplify/auth';
+import { toast } from 'sonner'
+import { Amplify } from 'aws-amplify'
+import awsconfig from '@/aws-exports'
 
+Amplify.configure(awsconfig)
 
 export default function Home() {
+  
   const [progress, setProgress] = useState(0);
-  const router = useRouter();
+  const router = useRouter();  
+  
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const user = await getCurrentUser();
+        toast("Already Logged In!")
+        if (user != null)  {
+          router.replace("/chat")
+        } else {
+          router.replace("/login")
+        } 
+      } catch (error: any) {
+        toast(error.message)
+      }
+    };
+  checkAuth();
+  }, [router]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress(prev => {
-        const next = prev + 1;
+    setProgress(prev => {
+      const next = prev + 1;
         if (next >= 100) clearInterval(interval);
-        return next;
-      });
-    }, 10);
-
+          return next;
+        });
+      }, 10);
     return () => clearInterval(interval);
   }, []);
-
-  // Auth Check
-  useEffect(() => {
-    const isLoggedIn = false;
-
-    if (isLoggedIn) {
-      router.replace('/chat');
-    } else {
-      router.replace('/login');
-    }
-  }, [router]);
 
   return (
     <main className="flex items-center justify-center h-screen bg-white">
