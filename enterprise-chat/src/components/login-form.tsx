@@ -13,9 +13,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react";
 
-type LoginFormProps = React.ComponentProps<"div"> & {
-  onSubmit: (formData: { email: string; password: string }) => void;
+type LoginFormProps = Omit<React.ComponentProps<"div">, "onSubmit"> & {
+  onSubmit: (formData: { email: string; password: string }) => void;
 };
+
 
 export function LoginForm({
   className,
