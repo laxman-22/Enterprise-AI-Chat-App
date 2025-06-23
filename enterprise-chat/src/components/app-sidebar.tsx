@@ -74,10 +74,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       const messages = res.data.chatMessagesByChatSessionIDAndCreatedAt.items;
       console.log("Fetched messages:", messages);
-  
+      toast("Loading...")
       router.push(`/chat/${chatId}`);
       } catch (err) {
-        toast.error("Failed to load messages");
+        toast.error("Unable to select chat");
       }
   } 
 

@@ -13,27 +13,28 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { useChat } from "@ai-sdk/react"
-import { ChatContainer, ChatForm, ChatMessages } from "@/components/ui/chat"
-import { MessageInput } from "@/components/ui/message-input"
-import { MessageList } from "@/components/ui/message-list"
+import { ChatContainer } from "@/components/ui/chat"
 import { PromptSuggestions } from "@/components/ui/prompt-suggestions"
+import { useState } from 'react'
 
 export default function Page() {
-  const {
-      messages,
-      input,
-      handleInputChange,
-      handleSubmit,
-      append,
-      status,
-      stop,
-    } = useChat()
   
-    const isLoading = status === 'submitted' || status === 'streaming'
-    const lastMessage = messages.at(-1)
-    const isEmpty = messages.length === 0
-    const isTyping = lastMessage?.role === "user"
+    const [messages, setMessages] = useState<
+      { id: string; role: "user" | "assistant"; content: string }[]
+    >([])
+
+    const [input, setInput] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
+
+    const append = (message: { role: "user"; content: string }) => {
+      const newMessage = {
+        id: crypto.randomUUID(),
+        role: message.role,
+        content: message.content,
+      }
+      setMessages((prev) => [...prev, newMessage])
+    }
+
     return (
     <SidebarProvider>
       <AppSidebar />
@@ -63,13 +64,11 @@ export default function Page() {
         <div className="w-full h-full">
             {/* keep chat history here */}
             <ChatContainer>
-              {isEmpty ? (
               <PromptSuggestions
                 label="Select a chat"
                 append={append}
                 suggestions={[]}
               />
-            ) : null}
       
           </ChatContainer>
         </div>
