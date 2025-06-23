@@ -21,7 +21,7 @@ import { useParams } from "next/navigation"
 import { createChatMessage } from "@/graphql/mutations"
 import { generateClient } from "aws-amplify/api";
 import { Amplify } from 'aws-amplify'
-import awsconfig from '@/aws-exports'
+import awsconfig from '@/amplifyconfig'
 import { useEffect, useState, useRef } from "react"
 import { chatMessagesByChatSessionIDAndCreatedAt } from "@/graphql/queries"
 import { toast } from "sonner"

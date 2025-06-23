@@ -3,7 +3,7 @@ import { SignUpForm } from "@/components/signup-form"
 import { useRouter } from "next/navigation";
 import { signUp, signIn } from "aws-amplify/auth"
 import { Amplify } from 'aws-amplify'
-import awsconfig from '@/aws-exports'
+import awsconfig from '@/amplifyconfig'
 import { toast } from "sonner"
 import { useEffect } from "react";
 

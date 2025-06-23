@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { signIn, fetchAuthSession } from "aws-amplify/auth"
 import { toast } from "sonner"
 import { Amplify } from 'aws-amplify'
-import awsconfig from '@/aws-exports'
+import awsconfig from '@/amplifyconfig'
 
 Amplify.configure(awsconfig)
 

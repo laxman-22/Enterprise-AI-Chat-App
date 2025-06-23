@@ -19,7 +19,7 @@ import { generateClient } from "aws-amplify/api"
 import { createChatSession } from "@/graphql/mutations"
 import { useRouter } from "next/navigation"
 import { Amplify } from 'aws-amplify'
-import awsconfig from '@/aws-exports'
+import awsconfig from '@/amplifyconfig'
 import { fetchAuthSession } from "aws-amplify/auth"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react"
